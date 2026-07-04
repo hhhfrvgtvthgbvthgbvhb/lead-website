@@ -1,0 +1,50 @@
+[
+  {
+    "q": "What types of hydraulic presses do you manufacture?",
+    "a": "We specialize in four-column hydraulic presses, C-frame presses, H-frame presses, and servo-hydraulic presses, with capacities ranging from 10 tons to 2,000 tons. We also offer custom configurations for deep drawing, stamping, forging, compression molding, and powder compacting applications. Please share your product drawings or samples, and our engineers will recommend the optimal machine structure."
+  },
+  {
+    "q": "Can you customize the machine according to my specific requirements?",
+    "a": "Absolutely. We provide full OEM/ODM customization, including press tonnage, stroke length, daylight, and table size; multi-stage speed control; heating/cooling plates for rubber or composite molding; PLC control systems (Siemens, Mitsubishi, or Delta); and safety light curtains, two-hand buttons, or automatic feeding systems. Share your technical requirements, and we will provide a tailored solution within 24 hours."
+  },
+  {
+    "q": "What is the lead time for production and delivery?",
+    "a": "For standard models: 15–25 days after deposit. For customized machines: 30–45 days depending on complexity. We maintain a buffer stock of key components to minimize waiting times. Shipping via sea freight to major ports typically takes 15–35 days depending on destination."
+  },
+  {
+    "q": "What certifications do your hydraulic presses carry?",
+    "a": "Our machines are manufactured in compliance with ISO 9001 quality management systems. We can also assist with additional compliance requirements (e.g., UL, CSA, or local electrical standards) upon request."
+  },
+  {
+    "q": "What is the warranty period, and what does it cover?",
+    "a": "We offer a 12-month warranty from the date of installation or 14 months from Bill of Lading, whichever comes first. The warranty covers all manufacturing defects in structural components, hydraulic system, and electrical controls. Wearable parts (seals, buttons, filters) are excluded but supplied at cost price."
+  },
+  {
+    "q": "Do you provide installation and training services?",
+    "a": "Yes. We offer three options: (1) Online support: Free video guidance and remote troubleshooting via TeamViewer/Zoom. (2) On-site installation: One engineer can be dispatched for 5–7 days (buyer covers visa, airfare, and local accommodation). (3) Local service partner: For high-volume markets, we can connect you with our authorized local technicians."
+  },
+  {
+    "q": "What hydraulic system components do you use?",
+    "a": "We use premium components to ensure reliability: Hydraulic pump by Rexroth (Germany) or Yuken (Japan) for high-pressure models; domestic top-tier brands for standard models. Valves by Yuken or Atos (Italy). Seals by NOK (Japan) or Merkel (Germany). Electrical by Siemens / Schneider / Mitsubishi. Full component list and brand origins are provided in the technical proposal."
+  },
+  {
+    "q": "How do you ensure the machine quality before shipment?",
+    "a": "Every machine undergoes a strict three-stage inspection: (1) Material incoming inspection: Steel plates, cylinders, and electrical parts are verified against certificates. (2) In-process inspection: Welding, machining, and assembly are checked at each station. (3) Final testing: 100% load testing at 110% nominal pressure for 30 minutes, plus functional testing of all safety and control systems. A test report and video are sent to the buyer before packing."
+  },
+  {
+    "q": "What is the power requirement, and can you adapt to our local voltage?",
+    "a": "Standard configuration is 380V / 50Hz / 3-phase. We can customize for 220V, 415V, 440V, or 60Hz systems. Please confirm your local industrial voltage when inquiring so we can configure the motor and electrical cabinet accordingly."
+  },
+  {
+    "q": "Do you supply spare parts and dies/molds?",
+    "a": "Yes. We stock common spare parts (seals, solenoid valves, pressure gauges, limit switches) and can ship them within 48 hours. We can also design and manufacture stamping dies, drawing dies, or compression molds as a turnkey solution, saving you the trouble of sourcing molds separately."
+  },
+  {
+    "q": "What are the payment terms?",
+    "a": "Our standard terms are T/T (Telegraphic Transfer): 30% deposit upon order confirmation, 70% balance before shipment. For long-term partners or orders over $50,000, we can discuss L/C at sight. We do not accept D/P or D/A for first-time orders."
+  },
+  {
+    "q": "How do you pack the machine for international shipping?",
+    "a": "The machine is disassembled into main body, oil tank, and control cabinet for container loading. Each part is wrapped in anti-rust oil and stretch film, then secured in a plywood export case or steel frame. For full-container loads (FCL), we use sea-worthy packaging with moisture-proof bags and shock-absorbing blocks."
+  }
+]
