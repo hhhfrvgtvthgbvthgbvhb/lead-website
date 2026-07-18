@@ -5,3 +5,6 @@ node_modules/
 .env.local
 payload.db*
 public/media/
+.env.production.local
+.atlas-conn
+.atlas-conn-nonsrv

@@ -5,7 +5,6 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { buildConfig } from 'payload'
 import path from 'path'
-import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import { Products } from './collections/Products'
 import { News } from './collections/News'
@@ -15,6 +14,17 @@ import { Inquiries } from './collections/Inquiries'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+
+// sharp is only used for image resizing on upload. In serverless runtimes
+// where the native binary isn't available (e.g. Vercel), continue without it —
+// uploads then keep the original files unchanged.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let sharp: any = undefined
+try {
+  sharp = (await import('sharp')).default
+} catch {
+  // continue without image processing
+}
 
 export default buildConfig({
   admin: {
