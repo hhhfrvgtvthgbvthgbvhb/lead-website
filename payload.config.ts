@@ -1,6 +1,7 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { buildConfig } from 'payload'
 import path from 'path'
 import sharp from 'sharp'
@@ -47,4 +48,18 @@ export default buildConfig({
       fileSize: 5000000, // 5MB
     },
   },
+  plugins: [
+    // Vercel Blob for admin media uploads in production (Vercel sets
+    // BLOB_READ_WRITE_TOKEN automatically when a Blob store is connected).
+    // Locally the token is absent and uploads keep using local disk storage.
+    vercelBlobStorage({
+      enabled: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+      collections: {
+        media: {
+          prefix: 'media',
+        },
+      },
+    }),
+  ],
 })
