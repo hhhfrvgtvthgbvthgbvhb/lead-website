@@ -33,6 +33,7 @@ export const Products: CollectionConfig = {
         { label: 'H Frame Hydraulic Press', value: 'h-frame' },
         { label: 'Four Column Hydraulic Press', value: 'four-column' },
         { label: 'Door Panel Embossing Machine', value: 'door-embossing' },
+        { label: 'Single Column Hydraulic Press', value: 'single-column' },
       ],
     },
     {

@@ -10,6 +10,7 @@
   "main_products": [
     "H Frame Hydraulic Press (100T – 1200T)",
     "Four Column Hydraulic Press (25T – 2000T)",
+    "Single Column (C-Frame) Hydraulic Press (5T – 500T)",
     "Door Panel Embossing Hydraulic Press (2000T – 4500T)",
     "Custom Servo-Hydraulic Solutions"
   ],
@@ -31,9 +32,17 @@
     "Spare Parts Supply"
   ],
   "contact": {
-    "email": "sales@leadhyd.com",
-    "phone": "+86-XXX-XXXX-XXXX",
-    "whatsapp": "+86-XXX-XXXX-XXXX",
-    "address": "Tengzhou Industrial Park, Zaozhuang, Shandong Province, China"
-  }
+    "email": "zhongjie@lead-group.cn",
+    "phone": "+86 132 8029 0890",
+    "whatsapp": "+86 132 8029 0890",
+    "address": "No. 998 Zhenxing North Road, Tengzhou, Zaozhuang, Shandong Province, China"
+  },
+  "legal_name_en": "Shandong LEAD Industrial Equipment Technology Co., Ltd.",
+  "tagline": "Engineering Strength. Global Reach. Lasting Partnership.",
+  "intro_en": [
+    "LEAD INDUSTRIAL EQUIPMENT (SHANDONG) CO., LTD. is a leading manufacturer committed to engineering excellence, specializing in the design, production, and global distribution of high-performance hydraulic presses, rotary joints, and complete industrial equipment sets. Headquartered in Shandong Province, China's industrial heartland, we combine decades of manufacturing expertise with cutting-edge technology to deliver robust, reliable, and cost-efficient machinery to clients worldwide.",
+    "At LEAD, hydraulic presses are more than products—they are our core passion and technical specialty. Our product line encompasses four-column hydraulic presses, frame-type hydraulic presses, single column (C-frame) presses, and custom-built hydraulic press systems. Whether you need standard models or fully customized solutions, our hydraulic presses are built to handle demanding applications across automotive, aerospace, appliance manufacturing, and metal fabrication industries.",
+    "Our equipment operates successfully in markets across Europe, Asia, and beyond, reflecting a proven international track record. We are proud to count prestigious global partners such as SMS Group and ACM Group (Russia) among our valued international clientele, which demonstrates our ability to meet world-class standards. Every hydraulic press undergoes rigorous testing and quality control, utilizing premium-grade components and advanced CNC machining to ensure long service life, consistent performance, and minimal downtime.",
+    "LEAD is dedicated to building long-term partnerships based on trust, quality, and mutual growth. From initial consultation and technical drawings to installation, commissioning, and after-sales service, we provide full lifecycle support to ensure your investment delivers maximum ROI."
+  ]
 }

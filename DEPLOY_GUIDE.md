@@ -5,12 +5,30 @@
 This is a **Next.js 15 + Payload CMS 3** full-stack website for LEAD Hydraulic Press Machinery.
 
 **Target markets:** South America, Russia, Middle East, Africa, Belt & Road countries.  
-**Language:** English (multi-language ready).  
-**Style:** Modern, professional, minimalist.
+**Language:** English.  
+**Style:** Premium dark industrial design (LEAD red accent).
 
 ---
 
-## 🚀 Quick Deploy to Vercel (Recommended)
+## 💻 Run Locally on Your Computer (Zero Setup)
+
+The project runs out of the box with a built-in SQLite database file — **no MongoDB or any other service needed** on your own computer.
+
+```bash
+npm install     # once — installs all dependencies
+npm run seed    # once — creates the admin user and imports all 89 products + 5 news articles
+npm run dev     # starts the site at http://localhost:3000
+```
+
+- **Website:** http://localhost:3000
+- **Admin panel:** http://localhost:3000/admin
+- **Local admin login:** `admin@leadhyd.com` / `LeadAdmin2026!`
+
+> The local database is a single file `payload.db` in the project folder. It is for development and preview only — production (Vercel) uses MongoDB Atlas. To start fresh locally, delete `payload.db` and run `npm run seed` again.
+
+---
+
+## 🚀 Deploy to Vercel + MongoDB Atlas (Production)
 
 ### Step 1: Create Accounts (Free)
 
@@ -81,6 +99,10 @@ NEXT_PUBLIC_SERVER_URL=https://your-domain.vercel.app
 4. Click **"Deploy"**
 5. Wait 3-5 minutes for build to complete
 
+> **How the database switch works:** when `MONGODB_URI` is set (on Vercel), the site automatically uses MongoDB Atlas. Without it (your computer), it uses the local `payload.db` SQLite file. No code changes needed.
+
+> **First content on production:** the production database starts empty. On your first visit to `/admin` you will create the first admin user. Then run `npm run seed` **locally with `MONGODB_URI` set in `.env`** to push all 89 products and 5 news articles into Atlas (the seed is idempotent — safe to re-run).
+
 ### Step 6: Configure Domain (Optional)
 
 1. Buy a domain (e.g., from GoDaddy, Namecheap, or Alibaba Cloud)
@@ -133,11 +155,13 @@ lead-website/
 │   ├── Products.ts
 │   ├── News.ts
 │   ├── Media.ts
-│   └── Users.ts
-├── public/images/products/  # 74 product photos (compressed WebP)
+│   ├── Users.ts
+│   └── Inquiries.ts         # Contact-form submissions
+├── public/images/products/  # 89 product photo sets (compressed WebP)
 ├── payload.config.ts        # Payload CMS configuration
 ├── next.config.js           # Next.js configuration
-├── products.json            # Static product data (74 items)
+├── products.json            # Static product data / seed source (89 items)
+├── news.json                # News seed source (5 articles)
 ├── faq.json                 # FAQ data (12 Q&As)
 └── company_info.json        # Company information
 ```
@@ -151,15 +175,17 @@ lead-website/
 1. Visit `https://your-domain.vercel.app/admin`
 2. Log in with your admin credentials
 3. Navigate to:
-   - **Products** → Add / Edit / Delete products
+   - **Products** → Add / Edit / Delete products (89 products across 4 categories)
    - **News** → Publish / Edit news articles
-   - **Media** → Upload product images
+   - **Media** → Upload and manage product images
+   - **Inquiries** → Read contact-form submissions from visitors
 
-### Option B: Edit Static JSON (Advanced)
+### Option B: Bulk Import via Seed Script (Advanced)
 
-If you need to bulk-update product data before the admin panel is fully configured:
+If you need to bulk-update product data:
 1. Edit `products.json` directly
-2. Re-deploy to Vercel (git push triggers auto-rebuild)
+2. Run `npm run seed` (idempotent — existing products are skipped, only new ones are added)
+3. Re-deploy to Vercel if the static fallback data should also change (git push triggers auto-rebuild)
 
 ---
 
@@ -181,9 +207,9 @@ If you need to bulk-update product data before the admin panel is fully configur
 
 2. **Image uploads via Admin** will save to the local filesystem by default. On Vercel, this is ephemeral (resets on redeploy). For permanent image storage in the admin panel, configure **Vercel Blob** or **Cloudinary** (see Advanced section below).
 
-3. **Email form** on the Contact page currently uses `mailto:` links. To enable true form submission, connect to a service like Resend, SendGrid, or Formspree (requires API key).
+3. **Contact form** stores every submission in the **Inquiries** collection (visible in the admin panel) — no email service required. To also receive an email for each inquiry, connect a service like Resend, SendGrid, or Formspree in `app/(website)/api/inquiry/route.ts` (requires API key).
 
-4. **Search Engine Optimization (SEO)** is pre-configured with meta tags, Open Graph, and structured data. Submit your sitemap to Google Search Console after deployment.
+4. **Search Engine Optimization (SEO)** is built in: per-page metadata, OpenGraph images, `sitemap.xml`, `robots.txt`, and JSON-LD structured data (Organization, Product, Breadcrumb). Follow the SEO checklist below after deployment.
 
 ---
 
@@ -211,6 +237,41 @@ If you encounter issues during deployment:
 
 ---
 
+## 🌐 Custom Domain + SEO Checklist (After Deploy)
+
+1. **Set the final URL:** in Vercel → Project Settings → Environment Variables, set `NEXT_PUBLIC_SERVER_URL` to your real domain (e.g. `https://www.leadpress.com`). Redeploy. This URL feeds sitemap.xml, robots.txt, OpenGraph and JSON-LD.
+2. **Verify metadata:** open the homepage → browser "View Source" → confirm `<title>` and `og:` tags show your domain.
+3. **Google Search Console** (https://search.google.com/search-console):
+   - Add your domain property (verify via DNS record)
+   - Submit sitemap: `https://your-domain.com/sitemap.xml` (contains all ~99 pages)
+4. **Bing Webmaster Tools** (https://www.bing.com/webmasters): add site + submit the same sitemap.
+5. **Test rich results:** run a product page through https://search.google.com/test/rich-results — the Product and Breadcrumb structured data should be detected.
+6. **Speed check:** run https://pagespeed.web.dev/ on the homepage; aim for green scores (all images are already compressed WebP).
+7. **Social preview:** paste the homepage URL into https://www.opengraph.xyz/ to preview how links look when shared.
+
+---
+
 **Project generated:** 2026-06-13  
-**Stack:** Next.js 15.3.9 + Payload CMS 3.85.1 + Tailwind CSS 3.4.17 + MongoDB Atlas  
-**Frontend pages:** 87 (Home, About, 74 Products, 5 News, Contact, Admin, API)
+**Stack:** Next.js 15.3.9 + Payload CMS 3.85.1 + Tailwind CSS 3.4.17 + SQLite (local) / MongoDB Atlas (production)  
+**Frontend pages:** ~100 (Home, About, 89 Products, 5 News, Contact, Sitemap, Admin, API)
+
+---
+
+## ✅ Deployment Completed (2026-07-05)
+
+| Item | Value |
+|------|-------|
+| **Production URL** | `https://lead-website-zeta.vercel.app` |
+| **Admin Panel** | `https://lead-website-zeta.vercel.app/admin` |
+| **GitHub Repo** | `https://github.com/hhhfrvgtvthgbvthgbvhb/lead-website` |
+| **Vercel Team** | `hhhfrvgtvthgbvthgbvhb's projects` (Hobby) |
+| **MongoDB Atlas** | `lead-website` cluster (M0 Free tier) |
+| **PAYLOAD_SECRET** | *(configured in Vercel env vars)* |
+
+### Environment Variables (Set in Vercel)
+
+| Variable | Status |
+|----------|--------|
+| `MONGODB_URI` | ✅ Configured |
+| `PAYLOAD_SECRET` | ✅ Configured |
+| `NEXT_PUBLIC_SERVER_URL` | To be updated after custom domain setup |

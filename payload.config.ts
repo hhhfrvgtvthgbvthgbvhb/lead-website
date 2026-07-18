@@ -1,12 +1,15 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
+import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { buildConfig } from 'payload'
 import path from 'path'
+import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import { Products } from './collections/Products'
 import { News } from './collections/News'
 import { Media } from './collections/Media'
 import { Users } from './collections/Users'
+import { Inquiries } from './collections/Inquiries'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -18,12 +21,21 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Products, News],
+  collections: [Users, Media, Products, News, Inquiries],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || 'a-very-secure-secret-key-for-lead-website-2024',
-  db: mongooseAdapter({
-    url: process.env.MONGODB_URI || 'mongodb://127.0.0.1/lead-website',
-  }),
+  sharp,
+  // Local development defaults to zero-setup SQLite (file:./payload.db).
+  // Set MONGODB_URI (e.g. MongoDB Atlas on Vercel) to switch to MongoDB.
+  db: process.env.MONGODB_URI
+    ? mongooseAdapter({
+        url: process.env.MONGODB_URI,
+      })
+    : sqliteAdapter({
+        client: {
+          url: process.env.DATABASE_URI || 'file:./payload.db',
+        },
+      }),
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },

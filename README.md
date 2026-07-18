@@ -1,16 +1,19 @@
 # LEAD Hydraulic Press Machinery — Corporate Website
 
+> **Project status (July 2026):** The site is feature-complete and production-ready. 89 products in 4 categories (H Frame 12 · Four Column 51 · Single Column 15 · Door Embossing 11), 5 news articles, working inquiry form, full SEO (sitemap, robots, JSON-LD), and a Payload CMS admin panel for all content. Local preview runs with one command (`npm run dev`) using a zero-setup SQLite database; production deploys to Vercel + MongoDB Atlas (see `DEPLOY_GUIDE.md`).
+
 **Modern, professional, and fully deployable corporate website for overseas markets.**
 
 ## 🌐 Live Website
 
-- **Homepage** — Hero, product categories, featured products, company advantages, FAQ, CTA
-- **About Us** — Company profile, key facts, global markets, services, full FAQ
-- **Products** — 74 hydraulic press models with filtering by category
-- **Product Detail** — Full specifications, image gallery, related products, inquiry buttons
-- **News** — Company announcements, exhibitions, product launches
-- **Contact** — Contact form, email/phone/WhatsApp, quick response promise
-- **Admin Panel** — Password-protected backend for managing products, news, and media
+- **Homepage** — Full-screen hero, animated stats, four product families, featured equipment, factory strength, applications, global presence, certifications, FAQ, CTA
+- **About Us** — Company profile, key-fact counters, factory & equipment gallery, certifications, customer visits & exhibitions, global markets, packaging & shipment
+- **Products** — 89 hydraulic press models in 4 categories with sticky filter bar
+- **Product Detail** — Image gallery with lightbox, engineering datasheet specs, quote CTA, related models, Product JSON-LD
+- **News** — Editorial newsroom with featured story, article detail with prev/next navigation
+- **Contact** — Split layout with info cards, response-time promise, and an inquiry form that stores submissions in the CMS (Inquiries collection)
+- **Admin Panel** — Password-protected backend for managing products, news, media, and inquiries
+- **SEO** — Metadata templates, OpenGraph/Twitter cards, sitemap.xml, robots.txt, Organization/Product/Breadcrumb JSON-LD
 
 ## 🛠️ Technology Stack
 

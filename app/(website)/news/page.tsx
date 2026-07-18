@@ -1,77 +1,105 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+import { getAllNews } from '@/lib/cms'
+import Reveal from '@/components/motion/Reveal'
 
-const newsItems = [
-  {
-    id: '1',
-    title: 'LEAD Hydraulic Press Expands into South American Market',
-    excerpt: 'We are pleased to announce our expanded distribution network across Brazil, Argentina, and Chile, providing local technical support and faster delivery for our four-column and H-frame hydraulic presses.',
-    category: 'Company News',
-    date: '2026-05-15',
-    slug: 'expand-south-america',
-  },
-  {
-    id: '2',
-    title: 'New 4500T Door Embossing Machine Launched',
-    excerpt: 'Our latest 4500-ton door panel embossing hydraulic press is now available, featuring servo-controlled precision and energy-saving technology for high-volume steel door manufacturers.',
-    category: 'Product Launch',
-    date: '2026-04-20',
-    slug: '4500t-door-embossing-launch',
-  },
-  {
-    id: '3',
-    title: 'Participating in METALEX Vietnam 2026',
-    excerpt: 'LEAD will exhibit our full range of hydraulic presses at METALEX Vietnam, Booth A12-34. We invite all partners and customers to visit us for live machine demonstrations and technical consultations.',
-    category: 'Exhibition',
-    date: '2026-03-10',
-    slug: 'metalex-vietnam-2026',
-  },
-  {
-    id: '4',
-    title: 'ISO 9001:2025 Recertification Completed',
-    excerpt: 'We have successfully passed our annual ISO 9001 quality management system audit with zero non-conformities, reaffirming our commitment to manufacturing excellence.',
-    category: 'Company News',
-    date: '2026-02-28',
-    slug: 'iso-9001-recertification',
-  },
-  {
-    id: '5',
-    title: 'Global Shipping & Logistics Update',
-    excerpt: 'To better serve our Middle East and African customers, we have partnered with new logistics providers offering competitive sea freight rates and door-to-door delivery options.',
-    category: 'Company News',
-    date: '2026-01-15',
-    slug: 'shipping-logistics-update',
-  },
-]
+export const dynamic = 'force-dynamic'
 
-export default function NewsPage() {
+export const metadata: Metadata = {
+  title: 'News & Events',
+  description:
+    'LEAD company news: product launches, exhibitions, certifications, market expansion and shipment milestones from our hydraulic press factory.',
+}
+
+export default async function NewsPage() {
+  const news = await getAllNews()
+  const [featured, ...rest] = news
+
   return (
     <div>
-      <section className="bg-steel-900 text-white py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl lg:text-5xl font-bold mb-4">News & Updates</h1>
-          <p className="text-xl text-steel-300 max-w-3xl">Latest company announcements, product launches, and industry insights.</p>
+      {/* Hero band */}
+      <section className="relative bg-steel-950 overflow-hidden">
+        <div className="absolute inset-0 bg-grid-dark bg-grid opacity-30" aria-hidden />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 lg:pt-44 pb-14 lg:pb-20">
+          <Reveal>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="h-px w-12 bg-brand-500" aria-hidden />
+              <span className="overline-label">Newsroom</span>
+            </div>
+            <h1 className="display-lg text-white">News & Events</h1>
+            <p className="mt-5 text-lg text-steel-400 max-w-2xl leading-relaxed">
+              Product launches, exhibitions and milestones from the LEAD factory floor.
+            </p>
+          </Reveal>
         </div>
       </section>
 
-      <section className="py-12 lg:py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="space-y-8">
-            {newsItems.map((news) => (
-              <article key={news.id} className="bg-white rounded-xl border border-steel-200 p-6 lg:p-8 hover:shadow-md transition-shadow">
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="text-xs font-medium text-brand-600 bg-brand-50 px-2 py-1 rounded">{news.category}</span>
-                  <span className="text-xs text-steel-400">{news.date}</span>
+      <section className="py-16 lg:py-24 bg-steel-50 relative">
+        <div className="absolute inset-0 bg-grid-light bg-grid opacity-60 pointer-events-none" aria-hidden />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Featured article */}
+          {featured && (
+            <Reveal>
+              <Link
+                href={`/news/${featured.slug}`}
+                className="group grid grid-cols-1 lg:grid-cols-2 bg-steel-950 rounded-lg overflow-hidden mb-10 lg:mb-14"
+              >
+                <div className="p-8 lg:p-14 flex flex-col justify-center">
+                  <div className="flex items-center gap-3 mb-5">
+                    <span className="text-[11px] font-display font-semibold uppercase tracking-[0.18em] bg-brand-600 text-white px-2.5 py-1 rounded-sm">
+                      {featured.category}
+                    </span>
+                    <time className="text-xs text-steel-400">{featured.date}</time>
+                  </div>
+                  <h2 className="font-display text-2xl lg:text-4xl font-bold text-white leading-tight group-hover:text-brand-400 transition-colors">
+                    {featured.title}
+                  </h2>
+                  <p className="mt-5 text-steel-400 leading-relaxed line-clamp-3">{featured.excerpt}</p>
+                  <span className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-brand-400">
+                    Read the story
+                    <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </span>
                 </div>
-                <h2 className="text-xl lg:text-2xl font-bold text-steel-900 mb-3">
-                  <Link href={`/news/${news.slug}`} className="hover:text-brand-600 transition-colors">
-                    {news.title}
-                  </Link>
-                </h2>
-                <p className="text-steel-600 leading-relaxed mb-4">{news.excerpt}</p>
-                <Link href={`/news/${news.slug}`} className="text-sm font-medium text-brand-600 hover:text-brand-700">
-                  Read more →
+                <div className="hidden lg:block bg-grid-dark bg-grid border-l border-white/10 relative min-h-[320px]">
+                  <div className="absolute inset-0 flex items-center justify-center p-14">
+                    <div className="text-center">
+                      <div className="font-display text-7xl font-bold text-white/10">{featured.date.slice(0, 4)}</div>
+                      <div className="mt-2 text-xs font-display uppercase tracking-[0.3em] text-white/30">LEAD Newsroom</div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </Reveal>
+          )}
+
+          {/* Remaining articles */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {rest.map((item, i) => (
+              <Reveal key={item.slug} delay={(i % 2) * 0.08}>
+                <Link
+                  href={`/news/${item.slug}`}
+                  className="group block bg-white rounded-lg border border-steel-200 p-7 lg:p-9 h-full hover:shadow-xl hover:shadow-steel-900/10 hover:-translate-y-1 transition-all duration-300"
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-[11px] font-display font-semibold uppercase tracking-[0.18em] text-brand-600 bg-brand-50 px-2.5 py-1 rounded-sm">
+                      {item.category}
+                    </span>
+                    <time className="text-xs text-steel-400">{item.date}</time>
+                  </div>
+                  <h2 className="font-display text-xl lg:text-2xl font-bold text-steel-900 leading-snug group-hover:text-brand-600 transition-colors">
+                    {item.title}
+                  </h2>
+                  <p className="mt-3 text-sm text-steel-500 leading-relaxed line-clamp-3">{item.excerpt}</p>
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600">
+                    Read more
+                    <svg className="w-4 h-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </span>
                 </Link>
-              </article>
+              </Reveal>
             ))}
           </div>
         </div>

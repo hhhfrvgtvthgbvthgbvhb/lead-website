@@ -1,5 +1,26 @@
 # LEAD Website — Admin Panel User Manual
 
+## 💻 Local Development (Zero Setup)
+
+The project works out of the box locally with a file-based SQLite database — no MongoDB or other external service needed.
+
+```bash
+npm install        # once
+npm run seed       # once — creates admin user + imports all products/news
+npm run dev        # then open http://localhost:3000
+```
+
+**Local admin panel:** `http://localhost:3000/admin`
+
+| | |
+|---|---|
+| **Email** | `admin@leadhyd.com` |
+| **Password** | `LeadAdmin2026!` |
+
+> These credentials are created by `npm run seed` for local development. Change them after your first login (Account page). The production site on Vercel creates its own first user on first visit (see below).
+>
+> The local database is stored in the `payload.db` file in the project folder. Delete that file and run `npm run seed` again to start fresh.
+
 ## 🔐 Logging In
 
 1. Open your browser and go to: `https://your-domain.vercel.app/admin`
@@ -27,8 +48,8 @@
 |-------|----------|-------------|
 | **Name (EN)** | ✅ | Product name in English, e.g., "500T Four Column Hydraulic Press" |
 | **Name (CN)** | ❌ | Chinese name (optional) |
-| **Slug** | ✅ | URL-friendly identifier, e.g., `500t-four-column`. Use only lowercase letters, numbers, and hyphens. |
-| **Category** | ✅ | Choose from: H Frame Press / Four Column Press / Door Embossing |
+| **Slug** | ✅ | The product URL is `/products/<slug>`. Existing products use numbers (`90`, `91`, ...). Using the next free number is the safest choice. |
+| **Category** | ✅ | Choose from: H Frame Hydraulic Press / Four Column Hydraulic Press / Single Column Hydraulic Press / Door Panel Embossing Machine |
 | **Tonnage** | ❌ | Press capacity in tons, e.g., `500` |
 | **Hero Image** | ✅ | The main product photo. Click **"Choose from existing"** or upload a new image. |
 | **Gallery** | ❌ | Additional product photos (up to 10 images recommended). |
@@ -107,6 +128,37 @@ Same process as Products: click the item in the list → edit → save (or use A
 
 ---
 
+## 📨 Viewing Form Inquiries
+
+Every submission from the website's **Contact / Request a Quote** form is stored in the CMS.
+
+1. Click **"Inquiries"** in the left sidebar
+2. The list shows: name, email, country, product interest, and submission date
+3. Click any row to read the full message
+4. Reply to the customer directly from your own email program (e.g., reply to `sales@leadhyd.com` mail)
+5. Inquiries are read-only records; only admins can delete them
+
+> 💡 Tip: check Inquiries at least once a day — the site does not send email notifications yet.
+
+---
+
+## 📞 Updating Phone / WhatsApp / Address
+
+The phone number, WhatsApp and address shown on the website (header, footer, contact page) are stored in the `company_info.json` file in the project folder:
+
+```json
+"contact": {
+  "email": "sales@leadhyd.com",
+  "phone": "+86-XXX-XXXX-XXXX",
+  "whatsapp": "+86-XXX-XXXX-XXXX",
+  "address": "No. 998 Zhenxing North Road, Tengzhou, Zaozhuang, Shandong Province, China"
+}
+```
+
+Ask your developer to update this file (a 2-minute change), then redeploy. The placeholder `+86-XXX-XXXX-XXXX` is intentional until your real number is added.
+
+---
+
 ## 👤 Managing Users (Admin Accounts)
 
 ### Create an Editor Account
@@ -170,8 +222,8 @@ Before saving, verify:
 - Refresh the page after 30 seconds (CDN caching)
 
 ### Product not appearing on the homepage?
-- Only products with **Featured = true** appear in the "Featured Products" section
-- The homepage shows the first 6 featured products
+- The homepage "Featured Equipment" section automatically shows a curated mix of top models from each category
+- Mark products as **Featured = true** if you want them prioritized in future layouts
 
 ### Changes not showing on the website?
 - Static pages (home, about, contact) update instantly
@@ -188,9 +240,10 @@ Before saving, verify:
 | Products List | `https://your-domain.vercel.app/admin/collections/products` |
 | News List | `https://your-domain.vercel.app/admin/collections/news` |
 | Media Library | `https://your-domain.vercel.app/admin/collections/media` |
+| Inquiries | `https://your-domain.vercel.app/admin/collections/inquiries` |
 | Users | `https://your-domain.vercel.app/admin/collections/users` |
 
 ---
 
-**Last updated:** 2026-06-13  
+**Last updated:** 2026-07-17  
 **For technical support:** Refer to `DEPLOY_GUIDE.md` or contact your developer.

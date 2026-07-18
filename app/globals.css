@@ -2,12 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 html {
   scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fff;
+  color: #1c2637;
+}
+
+::selection {
+  background: #c62828;
+  color: #fff;
+}
+
+/* thin industrial scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0a111d;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border: 2px solid #0a111d;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c62828;
+}
+
+@layer components {
+  /* Oversized display heading used across hero sections */
+  .display-xl {
+    @apply font-display font-bold tracking-tightest leading-[0.98] text-5xl sm:text-6xl lg:text-7xl xl:text-[5.25rem];
+  }
+  .display-lg {
+    @apply font-display font-bold tracking-tight leading-[1.02] text-4xl sm:text-5xl lg:text-6xl;
+  }
+  .display-md {
+    @apply font-display font-bold tracking-tight leading-[1.08] text-3xl sm:text-4xl lg:text-[2.75rem];
+  }
+  /* Small red overline label */
+  .overline-label {
+    @apply font-display text-xs sm:text-sm font-semibold uppercase tracking-[0.28em] text-brand-500;
+  }
+  .container-x {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  .hairline-t {
+    @apply border-t border-white/10;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ken-burns,
+  .animate-marquee,
+  .animate-marquee-reverse,
+  .animate-scroll-hint {
+    animation: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
 }

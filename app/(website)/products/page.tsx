@@ -1,98 +1,123 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import productsData from '@/products.json'
+import { redirect } from 'next/navigation'
+import { getAllProducts } from '@/lib/cms'
+import { CATEGORIES } from '@/lib/categories'
+import Reveal from '@/components/motion/Reveal'
 
-export default function ProductsPage({ searchParams }: { searchParams?: { category?: string } }) {
-  const category = searchParams?.category
+export const dynamic = 'force-dynamic'
 
-  const filtered = category
-    ? productsData.filter(p => {
-        if (category === 'h-frame') return p.category_en === 'H Frame Hydraulic Press'
-        if (category === 'four-column') return p.category_en === 'Four Column Hydraulic Press'
-        if (category === 'door-embossing') return p.category_en.includes('Door')
-        return true
-      })
-    : productsData
+export const metadata: Metadata = {
+  title: 'Hydraulic Press Products — 4 Press Families, 89+ Models',
+  description:
+    'Explore LEAD hydraulic press families: H frame (100–1200T), four column (25–2000T), single column C-frame (5–500T) and door panel embossing machines (2000–4500T).',
+}
 
-  const categories = [
-    { id: '', label: 'All Products', count: productsData.length },
-    { id: 'h-frame', label: 'H Frame Press', count: productsData.filter(p => p.category_en === 'H Frame Hydraulic Press').length },
-    { id: 'four-column', label: 'Four Column Press', count: productsData.filter(p => p.category_en === 'Four Column Hydraulic Press').length },
-    { id: 'door-embossing', label: 'Door Embossing', count: productsData.filter(p => p.category_en.includes('Door')).length },
-  ]
+export default async function ProductsPage({ searchParams }: { searchParams?: Promise<{ category?: string }> }) {
+  // Legacy links: /products?category=h-frame → /products/category/h-frame
+  const params = await searchParams
+  if (params?.category) {
+    const target = CATEGORIES.find((c) => c.id === params.category)
+    redirect(target ? `/products/category/${target.id}` : '/products')
+  }
+
+  const products = await getAllProducts()
 
   return (
     <div>
-      <section className="bg-steel-900 text-white py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl lg:text-5xl font-bold mb-4">Products</h1>
-          <p className="text-xl text-steel-300 max-w-3xl">
-            74+ hydraulic press models from 25T to 4500T. H-frame, four-column, and door embossing machines for metal forming, stamping, and deep drawing.
-          </p>
+      {/* Hero band */}
+      <section className="relative bg-steel-950 overflow-hidden">
+        <div className="absolute inset-0 bg-grid-dark bg-grid opacity-30" aria-hidden />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 lg:pt-44 pb-12 lg:pb-16">
+          <Reveal>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="h-px w-12 bg-brand-500" aria-hidden />
+              <span className="overline-label">Product Catalog</span>
+            </div>
+            <h1 className="display-lg text-white">Four Press Families</h1>
+            <p className="mt-5 text-lg text-steel-400 max-w-3xl leading-relaxed">
+              {products.length} models from 5T to 4500T — every machine engineered,
+              machined and load-tested in our own factory. Choose a family to browse its models.
+            </p>
+          </Reveal>
         </div>
       </section>
 
-      <section className="py-12 lg:py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Filter Tabs */}
-          <div className="flex flex-wrap gap-2 mb-10">
-            {categories.map((cat) => (
-              <Link
-                key={cat.id}
-                href={cat.id ? `/products?category=${cat.id}` : '/products'}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  (category || '') === cat.id
-                    ? 'bg-brand-600 text-white'
-                    : 'bg-steel-100 text-steel-700 hover:bg-steel-200'
-                }`}
-              >
-                {cat.label} ({cat.count})
-              </Link>
-            ))}
-          </div>
-
-          {/* Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filtered.map((product) => (
-              <div key={product.id} className="bg-white rounded-xl border border-steel-200 overflow-hidden hover:shadow-lg transition-shadow group">
-                <div className="aspect-[4/3] bg-steel-100 relative overflow-hidden">
-                  {product.hero_image ? (
-                    <Image
-                      src={`/images/products/${product.id}/hero.webp`}
-                      alt={product.name_en || product.name_cn}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 flex items-center justify-center text-steel-400 text-sm">
-                      [Product Image]
-                    </div>
-                  )}
-                </div>
-                <div className="p-6">
-                  <span className="text-xs font-medium text-brand-600 bg-brand-50 px-2 py-1 rounded mb-3 inline-block">
-                    {product.category_en}
-                  </span>
-                  <h3 className="text-lg font-semibold text-steel-900 mb-2">
-                    {product.name_en || product.name_cn}
-                  </h3>
-                  <p className="text-sm text-steel-500 line-clamp-2 mb-4">
-                    {product.description_en || (product.specs ? product.specs.slice(0, 100) + '...' : '')}
-                  </p>
+      {/* Category showcase */}
+      <section className="py-14 lg:py-24 bg-steel-50 relative min-h-[60vh]">
+        <div className="absolute inset-0 bg-grid-light bg-grid opacity-60 pointer-events-none" aria-hidden />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            {CATEGORIES.map((cat, i) => {
+              const count = products.filter(cat.match).length
+              return (
+                <Reveal key={cat.id} delay={i * 0.08}>
                   <Link
-                    href={`/products/${product.id}`}
-                    className="text-sm font-medium text-brand-600 hover:text-brand-700"
+                    href={`/products/category/${cat.id}`}
+                    className="group block bg-steel-950 rounded-lg overflow-hidden relative aspect-[16/10] lg:aspect-[16/9]"
                   >
-                    View details →
+                    <Image
+                      src={cat.image}
+                      alt={cat.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover opacity-75 group-hover:opacity-55 group-hover:scale-105 transition-all duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-steel-950 via-steel-950/35 to-transparent" aria-hidden />
+                    <div className="absolute top-5 left-5 flex items-center gap-2">
+                      <span className="text-[11px] font-display font-semibold uppercase tracking-[0.18em] bg-brand-600 text-white px-2.5 py-1 rounded-sm">
+                        {cat.range}
+                      </span>
+                      <span className="text-[11px] font-display font-semibold uppercase tracking-[0.18em] bg-steel-950/80 text-white backdrop-blur px-2.5 py-1 rounded-sm">
+                        {count} models
+                      </span>
+                    </div>
+                    <div className="absolute inset-x-0 bottom-0 p-6 lg:p-8">
+                      <h2 className="font-display text-2xl lg:text-3xl font-bold text-white leading-snug">
+                        {cat.name}
+                      </h2>
+                      <p className="mt-2 text-sm lg:text-base text-steel-400 leading-relaxed max-w-md">
+                        {cat.blurb}
+                      </p>
+                      <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-white">
+                        <span className="border-b-2 border-brand-500 pb-0.5 group-hover:text-brand-400 transition-colors">
+                          Browse {count} models
+                        </span>
+                        <svg className="w-4 h-4 text-brand-500 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                      </span>
+                    </div>
                   </Link>
-                </div>
-              </div>
-            ))}
+                </Reveal>
+              )
+            })}
           </div>
 
-          {filtered.length === 0 && (
-            <div className="text-center py-20 text-steel-500">No products found in this category.</div>
-          )}
+          {/* Help strip */}
+          <Reveal className="mt-10 lg:mt-14">
+            <div className="bg-steel-950 rounded-lg p-6 lg:p-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+              <div>
+                <h2 className="font-display text-xl lg:text-2xl font-bold text-white">
+                  Not sure which structure fits your part?
+                </h2>
+                <p className="mt-2 text-steel-400 leading-relaxed max-w-xl">
+                  Send us your drawings — our engineers will recommend the right press
+                  family and tonnage within 24 hours.
+                </p>
+              </div>
+              <Link
+                href="/contact"
+                className="group shrink-0 inline-flex items-center gap-3 bg-brand-600 hover:bg-brand-500 text-white font-semibold px-7 py-3.5 rounded-sm transition-colors"
+              >
+                Ask an Engineer
+                <svg className="w-5 h-5 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
     </div>
