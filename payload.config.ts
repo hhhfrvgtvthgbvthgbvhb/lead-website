@@ -1,5 +1,6 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { buildConfig } from 'payload'
@@ -26,17 +27,27 @@ export default buildConfig({
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || 'a-very-secure-secret-key-for-lead-website-2024',
   sharp,
-  // Local development defaults to zero-setup SQLite (file:./payload.db).
-  // Set MONGODB_URI (e.g. MongoDB Atlas on Vercel) to switch to MongoDB.
-  db: process.env.MONGODB_URI
-    ? mongooseAdapter({
-        url: process.env.MONGODB_URI,
-      })
-    : sqliteAdapter({
-        client: {
-          url: process.env.DATABASE_URI || 'file:./payload.db',
+  // Database selection by environment:
+  // 1. POSTGRES_URL set (Vercel + Neon integration) → Vercel Postgres (production)
+  // 2. MONGODB_URI set → MongoDB Atlas (kept as an alternative)
+  // 3. otherwise → zero-setup local SQLite file (development)
+  db: process.env.POSTGRES_URL
+    ? vercelPostgresAdapter({
+        pool: {
+          connectionString: process.env.POSTGRES_URL,
         },
-      }),
+        // Auto-create the schema on first use (small site; acceptable).
+        push: true,
+      })
+    : process.env.MONGODB_URI
+      ? mongooseAdapter({
+          url: process.env.MONGODB_URI,
+        })
+      : sqliteAdapter({
+          client: {
+            url: process.env.DATABASE_URI || 'file:./payload.db',
+          },
+        }),
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
