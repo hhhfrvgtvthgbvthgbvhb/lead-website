@@ -6,9 +6,9 @@
   "cleanUrls": true,
   "trailingSlash": true,
   "redirects": [
-    { "source": "/products/category/h-frame", "destination": "/products/?category=h-frame", "permanent": true },
-    { "source": "/products/category/four-column", "destination": "/products/?category=four-column", "permanent": true },
-    { "source": "/products/category/single-column", "destination": "/products/?category=c-frame", "permanent": true },
-    { "source": "/products/category/door-embossing", "destination": "/products/?category=door", "permanent": true }
+    { "source": "/products/category/h-frame/?", "destination": "/products/?category=h-frame", "permanent": true },
+    { "source": "/products/category/four-column/?", "destination": "/products/?category=four-column", "permanent": true },
+    { "source": "/products/category/single-column/?", "destination": "/products/?category=c-frame", "permanent": true },
+    { "source": "/products/category/door-embossing/?", "destination": "/products/?category=door", "permanent": true }
   ]
 }
